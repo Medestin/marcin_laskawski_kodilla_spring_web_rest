@@ -17,18 +17,22 @@ public class TaskController {
         return new ArrayList<>();
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "getTask")
     public TaskDto getTask(Long id){
         return new TaskDto(1L, "Test title", "Test content");
     }
 
+    @RequestMapping(method = RequestMethod.DELETE, value = "deleteTask")
     public void deleteTask(Long taskId){
 
     }
 
+    @RequestMapping(method = RequestMethod.PUT, value = "updateTask")
     public TaskDto updateTask(TaskDto taskDto){
         return new TaskDto(1L, "Edited test title", "Edited test content");
     }
 
+    @RequestMapping(method = RequestMethod.POST, value = "createTask")
     public void createTask(TaskDto taskDto){
 
     }
