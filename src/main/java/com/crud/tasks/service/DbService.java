@@ -21,7 +21,7 @@ public class DbService {
         return repository.findById(id);
     }
 
-    public Task save(Task task){
+    public Task saveTask(Task task){
         return repository.save(task);
     }
 }
