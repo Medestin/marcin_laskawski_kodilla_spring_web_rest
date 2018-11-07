@@ -26,7 +26,7 @@ public class TaskController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/getTask")
     public TaskDto getTask(Long id){
-        return new TaskDto(1L, "Test title", "Test content");
+        return taskMapper.mapToTaskDto(service.getTask(id));
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/deleteTask")
