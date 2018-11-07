@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 
 @Component
 public class TaskMapper {
+
     public Task mapToTask(TaskDto taskDto){
         return new Task(taskDto.getId(), taskDto.getTitle(), taskDto.getContent());
     }
