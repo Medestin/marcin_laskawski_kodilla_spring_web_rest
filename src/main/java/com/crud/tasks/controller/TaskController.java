@@ -4,6 +4,8 @@ import com.crud.tasks.domain.TaskDto;
 import com.crud.tasks.mapper.TaskMapper;
 import com.crud.tasks.service.DbService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -33,8 +35,9 @@ public class TaskController {
     }
 
     @DeleteMapping(value = "/deleteTask")
-    public void deleteTask(@RequestParam Long taskId){
+    public ResponseEntity deleteTask(@RequestParam Long taskId){
         service.deleteTask(taskId);
+        return ResponseEntity.noContent().build();
     }
 
     @PutMapping(value = "/updateTask")
@@ -43,7 +46,8 @@ public class TaskController {
     }
 
     @PostMapping(value = "/createTask", consumes = APPLICATION_JSON_VALUE)
-    public void createTask(@RequestBody TaskDto taskDto){
+    public ResponseEntity createTask(@RequestBody TaskDto taskDto){
         service.saveTask(taskMapper.mapToTask(taskDto));
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 }
