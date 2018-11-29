@@ -10,4 +10,9 @@ import lombok.NoArgsConstructor;
 public class TrelloBoardDto {
     private String name;
     private String id;
+
+    @Override
+    public String toString() {
+        return String.format("Board name: %s, id: %s", name, id);
+    }
 }

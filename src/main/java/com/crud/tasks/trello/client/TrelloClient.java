@@ -1,19 +1,20 @@
 package com.crud.tasks.trello.client;
 
 import com.crud.tasks.domain.TrelloBoardDto;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
-import java.net.URL;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Component
 public class TrelloClient {
     private RestTemplate restTemplate;
@@ -35,17 +36,23 @@ public class TrelloClient {
         this.restTemplate = restTemplate;
     }
 
-    public List<TrelloBoardDto> getTrelloBoards(){
+    public List<TrelloBoardDto> getTrelloBoards() {
         URI url = buildURI();
+        TrelloBoardDto[] boardsResponse;
 
-        TrelloBoardDto[] boardsResponse = Optional.ofNullable(restTemplate.getForObject(url, TrelloBoardDto[].class))
-                .orElse(new TrelloBoardDto[0]);
-
+        try {
+            boardsResponse = Optional.ofNullable(restTemplate.getForObject(url, TrelloBoardDto[].class))
+                    .orElseGet(() -> new TrelloBoardDto[0]);
+        } catch (HttpClientErrorException e) {
+            log.error(Arrays.toString(e.getStackTrace()));
+            System.out.println("Error " + e.getMostSpecificCause().getMessage() + ", stack trace logged.");
+            boardsResponse = new TrelloBoardDto[0];
+        }
         return Arrays.asList(boardsResponse);
     }
 
-    private URI buildURI(){
-        return UriComponentsBuilder.fromHttpUrl(trelloApiEndpoint + "/members/" + username + "/boards")
+    private URI buildURI() {
+        return UriComponentsBuilder.fromHttpUrl(String.format("%s/members/%s/boards", trelloApiEndpoint, username))
                 .queryParam("key", trelloAppKey)
                 .queryParam("token", trelloToken)
                 .queryParam("fields", "name,id")
