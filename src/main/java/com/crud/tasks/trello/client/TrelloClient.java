@@ -11,6 +11,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,17 +39,15 @@ public class TrelloClient {
 
     public List<TrelloBoardDto> getTrelloBoards() {
         URI url = buildURI();
-        TrelloBoardDto[] boardsResponse;
 
         try {
-            boardsResponse = Optional.ofNullable(restTemplate.getForObject(url, TrelloBoardDto[].class))
+            TrelloBoardDto[] boardsResponse = Optional.ofNullable(restTemplate.getForObject(url, TrelloBoardDto[].class))
                     .orElseGet(() -> new TrelloBoardDto[0]);
+            return Arrays.asList(boardsResponse);
         } catch (HttpClientErrorException e) {
-            log.error(Arrays.toString(e.getStackTrace()));
-            System.out.println("Error " + e.getMostSpecificCause().getMessage() + ", stack trace logged.");
-            boardsResponse = new TrelloBoardDto[0];
+            log.error(String.valueOf(e));
+            return Collections.emptyList();
         }
-        return Arrays.asList(boardsResponse);
     }
 
     private URI buildURI() {
