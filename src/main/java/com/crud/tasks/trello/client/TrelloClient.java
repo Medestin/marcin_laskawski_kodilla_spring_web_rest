@@ -45,7 +45,7 @@ public class TrelloClient {
                     .orElseGet(() -> new TrelloBoardDto[0]);
             return Arrays.asList(boardsResponse);
         } catch (HttpClientErrorException e) {
-            log.error(String.valueOf(e));
+            log.error(e.toString());
             return Collections.emptyList();
         }
     }

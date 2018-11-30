@@ -3,6 +3,7 @@ package com.crud.tasks.controller;
 import com.crud.tasks.domain.TrelloBoardDto;
 import com.crud.tasks.trello.client.TrelloClient;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -24,8 +25,8 @@ public class TrelloController {
         return new ArrayList<>(trelloClient.getTrelloBoards());
     }
 
-    @GetMapping(value = "boards/{filter}")
-    public List<TrelloBoardDto> getTrelloBoards(@PathVariable String filter) {
+    @GetMapping(value = "boards/")
+    public List<TrelloBoardDto> getTrelloBoards(@Param("filter") String filter) {
         return trelloClient.getTrelloBoards().stream()
                 .filter(trelloBoardDto -> trelloBoardDto.getName().toLowerCase().contains(filter.toLowerCase()))
                 .collect(Collectors.toList());
