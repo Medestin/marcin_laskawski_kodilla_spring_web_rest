@@ -33,4 +33,20 @@ public class SimpleEmailServiceTestSuite {
 
         verify(javaMailSender, times(1)).send(mailMessage);
     }
+
+    @Test
+    public void shouldSendEmailWithCCS(){
+        Mail mail = new Mail("test@test.com", "Test subject", "Test message",
+                "cc1@test.com", "cc2@test.com");
+
+        SimpleMailMessage mailMessage = new SimpleMailMessage();
+        mailMessage.setTo(mail.getReceiverEmail());
+        mailMessage.setSubject(mail.getSubject());
+        mailMessage.setText(mail.getMessage());
+        mailMessage.setCc(mail.getCcs());
+
+        simpleEmailService.send(mail);
+
+        verify(javaMailSender, times(1)).send(mailMessage);
+    }
 }
