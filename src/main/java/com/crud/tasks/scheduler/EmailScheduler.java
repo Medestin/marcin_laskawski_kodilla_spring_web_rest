@@ -26,7 +26,14 @@ public class EmailScheduler {
     @Scheduled(cron = "0 0 10 * * *")
     public void sendInformation(){
         long size = taskRepository.count();
+        String endOfMessage;
+
+        if(size != 1){
+            endOfMessage = " tasks.";
+        } else {
+            endOfMessage = " task.";
+        }
         simpleEmailService.send(new Mail(adminConfig.getAdminMail(), SUBJECT,
-                "Currently in database you have " + size + " tasks."));
+                "Currently in database you have " + size + endOfMessage));
     }
 }
