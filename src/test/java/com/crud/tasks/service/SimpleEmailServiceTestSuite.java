@@ -23,26 +23,9 @@ public class SimpleEmailServiceTestSuite {
     @Mock
     private JavaMailSender javaMailSender;
 
-    @Test
+    @Test(expected = NullPointerException.class)
     public void shouldThrowException(){
-        try{
         Mail mail = new Mail(null, "Test subject", "Test message");
-        } catch (NullPointerException e){
-            log.error(e.getMessage());
-            log.info("Exception 1 thrown and caught.");
-        }
-        try{
-            Mail mail2 = new Mail("test@test.com", null, "Test message");
-        } catch (NullPointerException e){
-            log.error(e.getMessage());
-            log.info("Exception 2 thrown and caught.");
-        }
-        try{
-            Mail mail3 = new Mail("test@test.com", "Test subject", null);
-        } catch (NullPointerException e){
-            log.error(e.getMessage());
-            log.info("Exception 3 thrown and caught.");
-        }
     }
 
     @Test
