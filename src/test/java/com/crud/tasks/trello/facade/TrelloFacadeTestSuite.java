@@ -1,9 +1,7 @@
 package com.crud.tasks.trello.facade;
 
-import com.crud.tasks.domain.TrelloBoard;
-import com.crud.tasks.domain.TrelloBoardDto;
-import com.crud.tasks.domain.TrelloList;
-import com.crud.tasks.domain.TrelloListDto;
+import com.crud.tasks.domain.*;
+import com.crud.tasks.domain.badges.Badges;
 import com.crud.tasks.mapper.TrelloMapper;
 import com.crud.tasks.service.TrelloService;
 import com.crud.tasks.trello.validator.TrelloValidator;
@@ -94,5 +92,23 @@ public class TrelloFacadeTestSuite {
             });
         });
 
+    }
+
+    @Test
+    public void testCreateCard(){
+        TrelloCardDto trelloCardDto = new TrelloCardDto("testName",
+                "testDescription", "top", "1");
+        TrelloCard trelloCard = new TrelloCard("testName",
+                "testDescription", "top", "1");
+        CreatedTrelloCardDto createdTrelloCardDto = new CreatedTrelloCardDto("1",
+                "testName", "url", new Badges());
+
+        when(trelloMapper.mapToCard(trelloCardDto)).thenReturn(trelloCard);
+        when(trelloMapper.mapToCardDto(trelloCard)).thenReturn(trelloCardDto);
+        when(trelloService.createTrelloCard(trelloCardDto)).thenReturn(createdTrelloCardDto);
+
+        CreatedTrelloCardDto mockedTrelloCardDto = trelloFacade.createCard(trelloCardDto);
+
+        assertEquals("testName", mockedTrelloCardDto.getName());
     }
 }

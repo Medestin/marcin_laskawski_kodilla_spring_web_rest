@@ -31,6 +31,9 @@ dependencies {
     compileOnly ('org.projectlombok:lombok:1.18.4')
     compile('org.springframework.boot:spring-boot-starter-data-jpa')
     compile('org.springframework.boot:spring-boot-starter-mail:2.1.1.RELEASE')
+	
+	//testDatabase
+    testRuntimeOnly('com.h2database:h2')
     
     //Database: mysql for localhost, postgre for heroku
 	compile('mysql:mysql-connector-java')
