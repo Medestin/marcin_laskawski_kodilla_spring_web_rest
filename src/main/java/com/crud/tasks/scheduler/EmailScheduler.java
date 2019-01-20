@@ -33,7 +33,7 @@ public class EmailScheduler {
         } else {
             endOfMessage = " task.";
         }
-        simpleEmailService.send(new Mail(adminConfig.getAdminMail(), SUBJECT,
+        simpleEmailService.sendDailyDatabaseCount(new Mail(adminConfig.getAdminMail(), SUBJECT,
                 "Currently in database you have " + size + endOfMessage));
     }
 }

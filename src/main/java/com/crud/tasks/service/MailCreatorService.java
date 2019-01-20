@@ -37,4 +37,10 @@ public class MailCreatorService {
         context.setVariable("application_functionality", functionality);
         return templateEngine.process("mail/created-trello-card-mail", context);
     }
+
+    public String createDailyDatabaseMessage(String message){
+        Context context = new Context();
+        context.setVariable("message", message);
+        return templateEngine.process("mail/daily-database-count-mail", context);
+    }
 }

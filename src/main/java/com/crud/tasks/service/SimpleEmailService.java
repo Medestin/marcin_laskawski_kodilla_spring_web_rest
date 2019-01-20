@@ -37,6 +37,18 @@ public class SimpleEmailService {
         }
     }
 
+    public void sendDailyDatabaseCount(Mail mail){
+        log.info("Preparing to send an email...");
+
+        try {
+            javaMailSender.send(createDailyMimeMessage(mail));
+
+            log.info("Message sent.");
+        } catch (MailException e){
+            log.error("Failed to send email.", e.getMessage(), e);
+        }
+    }
+
     private MimeMessagePreparator createMimeMessage(final Mail mail){
         return mimeMessage -> {
             MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
@@ -46,15 +58,12 @@ public class SimpleEmailService {
         };
     }
 
-    private SimpleMailMessage createMailMessage(final Mail mail){
-        SimpleMailMessage mailMessage = new SimpleMailMessage();
-        mailMessage.setTo(mail.getReceiverEmail());
-        mailMessage.setSubject(mail.getSubject());
-        mailMessage.setText(mail.getMessage());
-
-        if(mail.getCcs() != null){
-            mailMessage.setCc(mail.getCcs());
-        }
-        return mailMessage;
+    private MimeMessagePreparator createDailyMimeMessage(final Mail mail){
+        return mimeMessage -> {
+            MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
+            messageHelper.setTo(mail.getReceiverEmail());
+            messageHelper.setSubject(mail.getSubject());
+            messageHelper.setText(mailCreatorService.createDailyDatabaseMessage(mail.getMessage()), true);
+        };
     }
 }
