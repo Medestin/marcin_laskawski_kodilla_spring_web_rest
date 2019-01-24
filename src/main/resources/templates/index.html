@@ -14,8 +14,14 @@
 
     <!--/*@thymesVar id="one" type="com.crud.tasks.controller.StaticWebPageController"*/-->
     <!--/*@thymesVar id="two" type="com.crud.tasks.controller.StaticWebPageController"*/-->
-    <span>2 * 2 = </span><span th:text="${two}*${two}"></span><br>
-    <span>2 * 2 + 2 = </span><span th:text="${two}*${two}+${two}"></span><br>
-    <span>2 - 2 * 2 = </span><span th:text="${two}-${two}*${two}"></span><br>
+    <span><span th:text="${one}"></span> * <span th:text="${two}"></span> = </span><span th:text="${one}*${two}"></span><br>
+    <span><span th:text="${one}"></span> * <span th:text="${two}"></span> + <span th:text="${two}"></span> = </span><span th:text="${one}*${two}+${two}"></span><br>
+    <span><span th:text="${one}"></span> - <span th:text="${two}"></span> * <span th:text="${one}"></span> = </span><span th:text="${one}-${two}*${one}"></span><br>
+
+    <form action="/ac" method="get">
+        <input type="number" title="n1" name="n1">
+        <input type="number" title="n2" name="n2">
+        <input type="submit">
+    </form>
 </body>
 </html>
